@@ -2,6 +2,7 @@ package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.pessoa.PF;
 import br.com.fiap.infra.ConnectionFactory;
+import oracle.jdbc.OracleDatabaseMetaData;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,17 +15,22 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PFRepository implements Repository<PF, Long> {
+
+
     private static final AtomicReference<PFRepository> instance = new AtomicReference<>();
+
     private ConnectionFactory factory;
 
-    private PFRepository() {
+
+    private PFRepository(){
         this.factory = ConnectionFactory.build();
     }
 
-    public static PFRepository build() {
-        instance.compareAndSet( null, new PFRepository() );
+    public static PFRepository build(){
+       instance.compareAndSet(null, new PFRepository());
         return instance.get();
     }
+
 
     @Override
     public List<PF> findAll() {
@@ -32,28 +38,33 @@ public class PFRepository implements Repository<PF, Long> {
         Connection con = factory.getConnection();
         ResultSet rs = null;
         Statement st = null;
+
         try {
-            String sql = "SELECT * FROM TB_PF";
             st = con.createStatement();
-            rs = st.executeQuery( sql );
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    Long id = rs.getLong( "ID_PESSOA" );
-                    String nome = rs.getString( "NM_PESSOA" );
-                    LocalDate nascimento = rs.getDate( "DT_NASCIMENTO" ).toLocalDate();
-                    String tipo = rs.getString( "TP_PESSOA" );
-                    String cpf = rs.getString( "NR_CPF" );
-                    list.add( new PF( id, nome, nascimento, cpf ) );
+            String sql = "SELECT * FROM TB_PF";
+
+            rs = st.executeQuery(sql);
+
+            if (rs.isBeforeFirst()){
+                while (rs.next()){
+                    Long id = rs.getLong("ID_PESSOA");
+                    String nome = rs.getString("NM_PESSOA");
+                    LocalDate nascimento = rs.getDate("DT_NASCIMENTO").toLocalDate();
+                    String tipo = rs.getString("TP_PESSOA");
+                    String cpf = rs.getString("NR_CPF");
+
+                    list.add(new PF(id, nome, nascimento, cpf));
                 }
             }
+
         } catch (SQLException e) {
-            System.err.println( "Não foi possível consultar os dados!\n" + e.getMessage() );
+            System.err.println("Não foi possivel consultar os dados! \n" +e.getMessage());
         } finally {
-            fecharObjetos( rs, st, con );
+           fecharObjetos(rs, st,con);
         }
+
         return list;
     }
-
 
     @Override
     public PF findById(Long id) {
@@ -80,17 +91,19 @@ public class PFRepository implements Repository<PF, Long> {
         return false;
     }
 
-    private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
+    private static void fecharObjetos(ResultSet rs, Statement st , Connection con) {
         try {
-            boolean rsClosed = rs.isClosed();
-            if (Objects.nonNull( rs ) && !rsClosed) {
+
+
+            if (Objects.nonNull(rs) && ! rs.isClosed()){
                 rs.close();
+                boolean rsClosed = rs.isClosed();
+                st.close();
+                con.close();
             }
-            st.close();
-            con.close();
         } catch (SQLException e) {
-            System.err.println( "Erro ao encerrar o ResultSet, a Connection e o Statment!\n" + e.getMessage() );
+            System.err.println("Erro ao encerrar o ResultSet! \n" +e.getMessage());
         }
     }
-
 }
+
