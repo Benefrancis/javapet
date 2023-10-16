@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6f85eda3-f43d-4cdc-864b-dc28e60d047e",
-		"name": "1TDSA-2023",
+		"_postman_id": "b71eb918-6223-4153-a0a8-681eea36fecc",
+		"name": "JavaPet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1524675",
-		"_collection_link": "https://benefrancis-0803.postman.co/workspace/Keyclock~93df9411-a0f6-46ba-b611-cf6bc7dceb77/collection/1524675-6f85eda3-f43d-4cdc-864b-dc28e60d047e?action=share&source=collection_link&creator=1524675"
+		"_exporter_id": "1524675"
 	},
 	"item": [
 		{
@@ -66,6 +65,165 @@
 					],
 					"path": [
 						"pf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nascimento\": \"2010-05-15\",\r\n    \"nome\": \"Pereirão Marido de Aluguel\",\r\n    \"tipo\": \"PJ\",\r\n    \"CNPJ\": \"056545465431235\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/pj",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"pj"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANIMAL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/animal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"animal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANIMAL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"descricao\": \"CAO DA CASA\",\r\n        \"dono\": {\r\n            \"id\": 1\r\n        },\r\n        \"nome\": \"PIT O BULL DOG\",\r\n        \"raca\": \"PITBULL\",\r\n        \"tipo\": \"CACHORRO\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/animal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"animal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SERVICO",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": {\r\n        \"id\": 1\r\n    },\r\n    \"descricao\": \"TOSA NA REGUA\",\r\n    \"realizacao\": \"2023-10-15\",\r\n    \"tipo\": \"TOSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/servico",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"servico"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SERVICO",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/servico",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"servico"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SERVICO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": {\r\n        \"id\": 1\r\n    },\r\n    \"descricao\": \"TOSA NA REGUA\",\r\n    \"realizacao\": \"2023-10-15\",\r\n    \"tipo\": \"TOSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/servico",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"servico"
 					]
 				}
 			},
