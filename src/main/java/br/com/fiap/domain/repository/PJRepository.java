@@ -3,10 +3,7 @@ package br.com.fiap.domain.repository;
 import br.com.fiap.domain.entity.pessoa.PJ;
 import br.com.fiap.infra.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ public class PJRepository implements Repository<PJ, Long> {
         instance.compareAndSet( null, new PJRepository() );
         return instance.get();
     }
-
 
     @Override
     public List<PJ> findAll() {
@@ -60,12 +56,71 @@ public class PJRepository implements Repository<PJ, Long> {
 
     @Override
     public PJ findById(Long id) {
-        return null;
+
+        PJ pessoa = null;
+
+        Connection con = factory.getConnection();
+
+        ResultSet rs = null;
+
+        PreparedStatement ps = null;
+
+        var sql = "SELECT * FROM TB_PJ where ID_PESSOA=?";
+
+        try {
+            ps = con.prepareStatement( sql );
+
+            ps.setLong( 1, id );
+
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    String nome = rs.getString( "NM_PESSOA" );
+                    LocalDate nascimento = rs.getDate( "DT_NASCIMENTO" ).toLocalDate();
+                    String cnpj = rs.getString( "NR_CNPJ" );
+                    pessoa = new PJ( id, nome, nascimento, cnpj );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println( "Dados não encontrados com o id: " + id );
+        } finally {
+            fecharObjetos( rs, ps, con );
+        }
+        return pessoa;
     }
 
     @Override
     public PJ persiste(PJ pj) {
-        return null;
+
+        PJ pessoa = null;
+
+        var sql = "BEGIN INSERT INTO TB_PJ (NM_PESSOA, DT_NASCIMENTO, TP_PESSOA, NR_CNPJ) values (?,?,?,?) returning ID_PESSOA into ?; END;";
+
+        Connection con = factory.getConnection();
+
+        CallableStatement cs = null;
+
+        try {
+            cs = con.prepareCall( sql );
+
+            cs.setString( 1, pj.getNome() );
+            cs.setDate( 2, Date.valueOf( pj.getNascimento() ) );
+            cs.setString( 3, pj.getTipo() );
+            cs.setString( 4, pj.getCNPJ() );
+
+            cs.registerOutParameter( 5, Types.BIGINT );
+            cs.executeUpdate();
+            pessoa.setId( cs.getLong( 5 ) );
+
+
+        } catch (SQLException e) {
+            System.err.println( "Não foi possível inserir os dados!\n" + e.getMessage() );
+        } finally {
+            fecharObjetos( null, cs, con );
+        }
+
+        return pessoa;
     }
 
     private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
