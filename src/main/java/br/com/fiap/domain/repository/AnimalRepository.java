@@ -59,17 +59,12 @@ public class AnimalRepository implements Repository<Animal, Long> {
                     String raca = rs.getString( "RACA" );
                     String descricao = rs.getString( "DS_ANIMAL" );
                     String tipo = rs.getString( "TP_ANIMAL" );
-
                     Long idDono = rs.getLong( "DONO" );
-
                     Pessoa dono = null;
-
                     dono = pfService.findById( idDono );
-
                     if (Objects.isNull( dono )) {
                         dono = pjService.findById( idDono );
                     }
-
                     if (tipo.equals( "CACHORRO" )) {
                         list.add( new Cachorro( id, nome, raca, descricao, dono ) );
                     } else if (tipo.equals( "GATO" )) {
