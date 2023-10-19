@@ -7,7 +7,7 @@ public class PJ extends Pessoa {
     private String CNPJ;
 
     public PJ(String CNPJ) {
-        super("PJ");
+        super( "PJ" );
         this.CNPJ = CNPJ;
     }
 
@@ -15,6 +15,8 @@ public class PJ extends Pessoa {
         super( id, nome, nascimento, "PJ" );
         this.CNPJ = CNPJ;
     }
+
+
 
     public String getCNPJ() {
         return CNPJ;
