@@ -82,6 +82,24 @@ public class AnimalRepository implements Repository<Animal, Long> {
 
     @Override
     public Animal findById(Long id) {
+        Animal animal = null;
+        var sql = "SELECT * FROM TB_ANIMAL where ID_ANIMAL=?";
+
+
+        Connection conn = factory.getConnection();
+
+        try {
+            conn.prepareStatement(sql);
+
+
+
+
+
+        } catch (SQLException e) {
+            System.err.println("Não foi possivel realizar a consulta: " + e.getMessage());
+        }
+
+
         return null;
     }
 
