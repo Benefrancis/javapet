@@ -14,6 +14,222 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"// Test to check if the response has the correct content type\r",
+							"pm.test(\"Response has the correct content type\", function() {\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+							"});\r",
+							" \r",
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nascimento\": \"1960-05-15\",\r\n    \"nome\": \"Bolsonaro\",\r\n    \"tipo\": \"PF\",\r\n    \"CPF\": \"132456464654\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/pf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"pf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PJ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// Test to check if the response has the correct content type\r",
+							"pm.test(\"Response has the correct content type\", function() {\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+							"});\r",
+							"\r",
+							" \r",
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nascimento\": \"2010-05-15\",\r\n    \"nome\": \"Mulher de Aluguel\",\r\n    \"tipo\": \"PJ\",\r\n    \"CNPJ\": \"564546546\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/pj",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"pj"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANIMAL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// Test to check if the response has the correct content type\r",
+							"pm.test(\"Response has the correct content type\", function() {\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+							"});\r",
+							"\r",
+							" \r",
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"descricao\": \"CAO DA CASA\",\r\n        \"dono\": {\r\n            \"id\": 1\r\n        },\r\n        \"nome\": \"PIT O BULL DOG\",\r\n        \"raca\": \"PITBULL\",\r\n        \"tipo\": \"CACHORRO\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/animal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"animal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SERVICO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Description is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.descricao).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"ID is a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.animal.id).to.be.a('number').and.to.be.at.least(0);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Realization is a non-empty string\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"\r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.realizacao).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": {\r\n        \"id\": 1\r\n    },\r\n    \"descricao\": \"TOSA NA REGUA\",\r\n    \"realizacao\": \"2023-10-15\",\r\n    \"tipo\": \"TOSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/servico",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"servico"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
 							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 							"});\r",
 							"\r",
@@ -117,113 +333,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/pf/41",
+					"raw": "http://localhost/pf/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"pf",
-						"41"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PF",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is within acceptable range\", function () {\r",
-							"  pm.expect(pm.response.responseTime).to.be.below(2000);\r",
-							"});\r",
-							"\r",
-							"// Test to check if the response has the correct content type\r",
-							"pm.test(\"Response has the correct content type\", function() {\r",
-							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
-							"});\r",
-							" \r",
-							"pm.test(\"Response status code is 201\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(201);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nascimento\": \"1960-05-15\",\r\n    \"nome\": \"Bolsonaro\",\r\n    \"tipo\": \"PF\",\r\n    \"CPF\": \"132456464654\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost/pf",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"pf"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PJ",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is within acceptable range\", function () {\r",
-							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
-							"});\r",
-							"\r",
-							"// Test to check if the response has the correct content type\r",
-							"pm.test(\"Response has the correct content type\", function() {\r",
-							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
-							"});\r",
-							"\r",
-							" \r",
-							"pm.test(\"Response status code is 201\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(201);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nascimento\": \"2010-05-15\",\r\n    \"nome\": \"Mulher de Aluguel\",\r\n    \"tipo\": \"PJ\",\r\n    \"CNPJ\": \"564546546\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost/pj",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"pj"
+						"1"
 					]
 				}
 			},
@@ -260,56 +377,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "http://localhost/animal",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"animal"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ANIMAL",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is within acceptable range\", function () {\r",
-							"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
-							"});\r",
-							"\r",
-							"// Test to check if the response has the correct content type\r",
-							"pm.test(\"Response has the correct content type\", function() {\r",
-							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
-							"});\r",
-							"\r",
-							" \r",
-							"pm.test(\"Response status code is 201\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(201);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n        \"descricao\": \"CAO DA CASA\",\r\n        \"dono\": {\r\n            \"id\": 1\r\n        },\r\n        \"nome\": \"PIT O BULL DOG\",\r\n        \"raca\": \"PITBULL\",\r\n        \"tipo\": \"CACHORRO\"\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost/animal",
 					"protocol": "http",
@@ -433,73 +500,6 @@
 					"path": [
 						"servico",
 						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SERVICO",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"\r",
-							"pm.test(\"Response status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"pm.test(\"Description is a non-empty string\", function () {\r",
-							"    const responseData = pm.response.json();\r",
-							"    \r",
-							"    pm.expect(responseData).to.be.an('object');\r",
-							"    pm.expect(responseData.descricao).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-							"});\r",
-							"\r",
-							"\r",
-							"pm.test(\"ID is a non-negative integer\", function () {\r",
-							"    const responseData = pm.response.json();\r",
-							"    \r",
-							"    pm.expect(responseData).to.be.an('object');\r",
-							"    pm.expect(responseData.animal.id).to.be.a('number').and.to.be.at.least(0);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"pm.test(\"Realization is a non-empty string\", function () {\r",
-							"  const responseData = pm.response.json();\r",
-							"\r",
-							"  pm.expect(responseData).to.be.an('object');\r",
-							"  pm.expect(responseData.realizacao).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"animal\": {\r\n        \"id\": 1\r\n    },\r\n    \"descricao\": \"TOSA NA REGUA\",\r\n    \"realizacao\": \"2023-10-15\",\r\n    \"tipo\": \"TOSA\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost/servico",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"servico"
 					]
 				}
 			},

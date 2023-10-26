@@ -149,6 +149,7 @@ public class ServicoRepository implements Repository<Servico, Long> {
         CallableStatement cs = null;
 
         try {
+            conn.setAutoCommit( false );
             cs = conn.prepareCall( sql );
             cs.setString( 1, s.getTipo() );
             cs.setString( 2, s.getDescricao() );
@@ -156,7 +157,8 @@ public class ServicoRepository implements Repository<Servico, Long> {
             cs.setLong( 4, s.getAnimal().getId() );
             cs.registerOutParameter( 5, Types.BIGINT );
             cs.executeUpdate();
-            s.setId( cs.getLong( 6 ) );
+            s.setId( cs.getLong( 5 ) );
+            conn.setAutoCommit( true );
         } catch (SQLException e) {
             System.err.println( "Não foi possivel salvar o servico no banco de dados:  " + e.getMessage() );
         } finally {
