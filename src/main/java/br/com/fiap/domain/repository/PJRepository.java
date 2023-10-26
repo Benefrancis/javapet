@@ -1,6 +1,7 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.pessoa.PJ;
+import br.com.fiap.domain.entity.pessoa.Pessoa;
 import br.com.fiap.infra.ConnectionFactory;
 
 import java.sql.*;
@@ -92,35 +93,24 @@ public class PJRepository implements Repository<PJ, Long> {
 
     @Override
     public PJ persiste(PJ pj) {
-
-        PJ pessoa = null;
-
-        var sql = "BEGIN INSERT INTO TB_PJ (NM_PESSOA, DT_NASCIMENTO, TP_PESSOA, NR_CNPJ) values (?,?,?,?) returning ID_PESSOA into ?; END;";
-
+        var sql = "BEGIN INSERT INTO TB_PJ ( ID_PESSOA , NM_PESSOA, DT_NASCIMENTO, TP_PESSOA, NR_CNPJ) values (0, ?,?,?,?) returning ID_PESSOA into ?; END;";
         Connection con = factory.getConnection();
-
         CallableStatement cs = null;
-
         try {
             cs = con.prepareCall( sql );
-
             cs.setString( 1, pj.getNome() );
             cs.setDate( 2, Date.valueOf( pj.getNascimento() ) );
             cs.setString( 3, pj.getTipo() );
             cs.setString( 4, pj.getCNPJ() );
-
             cs.registerOutParameter( 5, Types.BIGINT );
             cs.executeUpdate();
-            pessoa.setId( cs.getLong( 5 ) );
-
-
+            pj.setId( cs.getLong( 5 ) );
         } catch (SQLException e) {
             System.err.println( "Não foi possível inserir os dados!\n" + e.getMessage() );
         } finally {
             fecharObjetos( null, cs, con );
         }
-
-        return pessoa;
+        return pj;
     }
 
     private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
