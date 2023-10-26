@@ -16,8 +16,6 @@ public class PJ extends Pessoa {
         this.CNPJ = CNPJ;
     }
 
-
-
     public String getCNPJ() {
         return CNPJ;
     }

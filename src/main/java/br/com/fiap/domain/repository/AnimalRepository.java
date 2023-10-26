@@ -52,6 +52,7 @@ public class AnimalRepository implements Repository<Animal, Long> {
 
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
+
                     Long id = rs.getLong("ID_ANIMAL");
                     String nome = rs.getString("NM_ANIMAL");
                     String raca = rs.getString("RACA");
@@ -68,6 +69,7 @@ public class AnimalRepository implements Repository<Animal, Long> {
                     } else if (tipo.equals("GATO")) {
                         list.add(new Gato(id, nome, raca, descricao, dono));
                     }
+
                 }
             }
         } catch (SQLException e) {
@@ -93,16 +95,12 @@ public class AnimalRepository implements Repository<Animal, Long> {
 
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
+
                     String nome = rs.getString("NM_ANIMAL");
-
                     String raca = rs.getString("RACA");
-
                     String tipo = rs.getString("TP_ANIMAL");
-
                     String descricao = rs.getString("DS_ANIMAL");
-
                     Long dono = rs.getLong("DONO");
-
 
                     Pessoa pessoa = pfService.findById(dono);
 
