@@ -112,8 +112,14 @@ mvn clean package exec:java
 
 2 .No diretório documentacao/database, procure e execute o script SQL a depender do seu SGBDR:
 
-[ORACLE] tabelas-oracle.sql
-[MARIADB ou MYSQL] tabelas-maria-db.sql
+
+
+**[ORACLE]** tabelas-oracle.sql
+
+
+**[MARIADB ou MYSQL]** tabelas-maria-db.sql
+
+
 
 3. No seu navegador digite:
 
