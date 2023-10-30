@@ -20,6 +20,8 @@ CHECKPOINT - Domain Driven Development aplicado em 06/10/2023.
 
 [Correção ](#_Correcao)
 
+[Como Rodar o Programa ](#_RUN)
+
 <a id="_Estudo_de_caso"></a>
 
 # Estudo de caso
@@ -91,6 +93,20 @@ Para acessar digite no prompt:
 ```shell
 git clone https://github.com/Benefrancis/javapet.git && cd javapet && git checkout correcao
 ```
+
+<a id="_RUN"></a>
+
+# Como executar o programa
+
+Para executar o programa, basta entrar no diretório raiz "javapet" utilizando o prompt de comando e digitar o seguinte 
+comando ([é necessário ter o Maven corretamente instalado e configurado](https://www.youtube.com/watch?v=rfhTnfbBQcY)):
+
+```shell
+mvn clean package exec:java
+```
+
+<img src="documentacao/como-rodar.png" alt="Veja como rodar no prompt">
+
 
 A atividade é em dupla, em caso de fraude de qualquer tipo todos os envolvidos receberão nota ZERO.
 
