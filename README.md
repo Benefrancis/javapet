@@ -110,7 +110,7 @@ mvn clean package exec:java
 
 <img src="documentacao/como-rodar.png" alt="Veja como rodar no prompt">
 
-2 .No diretório documentacao/database, procure e execute o script SQL a depender do seu SGBDR:
+2. No diretório documentacao/database, procure e execute o script SQL a depender do seu SGBDR:
 
 
 
