@@ -93,35 +93,31 @@ public class PJRepository implements Repository<PJ, Long> {
 
     @Override
     public PJ persiste(PJ pj) {
-        var sql = "BEGIN INSERT INTO TB_PJ ( ID_PESSOA , NM_PESSOA, DT_NASCIMENTO, TP_PESSOA, NR_CNPJ) values (0, ?,?,?,?) returning ID_PESSOA into ?; END;";
+        var sql = "INSERT INTO TB_PJ ( ID_PESSOA , NM_PESSOA, DT_NASCIMENTO, TP_PESSOA, NR_CNPJ) values (0, ?,?,?,?)";
         Connection con = factory.getConnection();
-        CallableStatement cs = null;
+        PreparedStatement ps = null;
         try {
-            cs = con.prepareCall( sql );
-            cs.setString( 1, pj.getNome() );
-            cs.setDate( 2, Date.valueOf( pj.getNascimento() ) );
-            cs.setString( 3, pj.getTipo() );
-            cs.setString( 4, pj.getCNPJ() );
-            cs.registerOutParameter( 5, Types.BIGINT );
-            cs.executeUpdate();
-            pj.setId( cs.getLong( 5 ) );
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString( 1, pj.getNome() );
+            ps.setDate( 2, Date.valueOf( pj.getNascimento() ) );
+            ps.setString( 3, pj.getTipo() );
+            ps.setString( 4, pj.getCNPJ() );
+            ps.executeUpdate();
+
+            final ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                final Long id = rs.getLong(1);
+                pj.setId(id);
+            }
+
         } catch (SQLException e) {
             System.err.println( "Não foi possível inserir os dados!\n" + e.getMessage() );
         } finally {
-            fecharObjetos( null, cs, con );
+            fecharObjetos( null, ps, con );
         }
         return pj;
     }
 
-    private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
-        try {
-            if (Objects.nonNull( rs ) && !rs.isClosed()) {
-                rs.close();
-            }
-            st.close();
-            con.close();
-        } catch (SQLException e) {
-            System.err.println( "Erro ao encerrar o ResultSet, a Connection e o Statment!\n" + e.getMessage() );
-        }
-    }
+
 }

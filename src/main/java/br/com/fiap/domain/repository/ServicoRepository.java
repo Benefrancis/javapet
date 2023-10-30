@@ -26,7 +26,7 @@ public class ServicoRepository implements Repository<Servico, Long> {
     }
 
     public static ServicoRepository build() {
-        instance.compareAndSet( null, new ServicoRepository() );
+        instance.compareAndSet(null, new ServicoRepository());
         return instance.get();
     }
 
@@ -43,40 +43,40 @@ public class ServicoRepository implements Repository<Servico, Long> {
         ResultSet rs = null;
         try {
             st = conn.createStatement();
-            rs = st.executeQuery( sql );
+            rs = st.executeQuery(sql);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    Long idServico = rs.getLong( "ID_SERVICO" );
-                    String tipo = rs.getString( "TP_SERVICO" );
-                    String descricao = rs.getString( "DS_SERVICO" );
-                    LocalDate realizacao = rs.getDate( "DT_REALIZACAO" ).toLocalDate();
-                    Long idAnimal = rs.getLong( "ANIMAL" );
-                    Animal animal = animalService.findById( idAnimal );
+                    Long idServico = rs.getLong("ID_SERVICO");
+                    String tipo = rs.getString("TP_SERVICO");
+                    String descricao = rs.getString("DS_SERVICO");
+                    LocalDate realizacao = rs.getDate("DT_REALIZACAO").toLocalDate();
+                    Long idAnimal = rs.getLong("ANIMAL");
+                    Animal animal = animalService.findById(idAnimal);
                     Servico servico = null;
-                    if (tipo.equalsIgnoreCase( "Banho" )) {
+                    if (tipo.equalsIgnoreCase("Banho")) {
                         servico = new Banho();
                     }
-                    if (tipo.equalsIgnoreCase( "Consulta" )) {
+                    if (tipo.equalsIgnoreCase("Consulta")) {
                         servico = new Consulta();
                     }
-                    if (tipo.equalsIgnoreCase( "Tosa" )) {
+                    if (tipo.equalsIgnoreCase("Tosa")) {
                         servico = new Tosa();
                     }
-                    if (tipo.equalsIgnoreCase( "Vacina" )) {
+                    if (tipo.equalsIgnoreCase("Vacina")) {
                         servico = new Vacina();
                     }
-                    servico.setAnimal( animal );
-                    servico.setRealizacao( realizacao );
-                    servico.setDescricao( descricao );
-                    servico.setId( idServico );
-                    servico.setTipo( tipo );
-                    servicos.add( servico );
+                    servico.setAnimal(animal);
+                    servico.setRealizacao(realizacao);
+                    servico.setDescricao(descricao);
+                    servico.setId(idServico);
+                    servico.setTipo(tipo);
+                    servicos.add(servico);
                 }
             }
         } catch (SQLException e) {
-            System.err.println( "Não foi possível consultar o Serviço: " + e.getMessage() );
+            System.err.println("Não foi possível consultar o Serviço: " + e.getMessage());
         } finally {
-            fecharObjetos( rs, st, conn );
+            fecharObjetos(rs, st, conn);
         }
         return servicos;
     }
@@ -94,44 +94,44 @@ public class ServicoRepository implements Repository<Servico, Long> {
 
         try {
 
-            ps = conn.prepareStatement( sql );
-            ps.setLong( 1, id );
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id);
             rs = ps.executeQuery();
 
             if (rs.isBeforeFirst()) {
 
                 while (rs.next()) {
 
-                    Long idServico = rs.getLong( "ID_SERVICO" );
-                    String tipo = rs.getString( "TP_SERVICO" );
-                    String descricao = rs.getString( "DS_SERVICO" );
-                    LocalDate realizacao = rs.getDate( "DT_REALIZACAO" ).toLocalDate();
-                    Long idAnimal = rs.getLong( "ANIMAL" );
-                    Animal animal = animalService.findById( idAnimal );
+                    Long idServico = rs.getLong("ID_SERVICO");
+                    String tipo = rs.getString("TP_SERVICO");
+                    String descricao = rs.getString("DS_SERVICO");
+                    LocalDate realizacao = rs.getDate("DT_REALIZACAO").toLocalDate();
+                    Long idAnimal = rs.getLong("ANIMAL");
+                    Animal animal = animalService.findById(idAnimal);
 
-                    if (tipo.equalsIgnoreCase( "Banho" )) {
+                    if (tipo.equalsIgnoreCase("Banho")) {
                         servico = new Banho();
                     }
-                    if (tipo.equalsIgnoreCase( "Consulta" )) {
+                    if (tipo.equalsIgnoreCase("Consulta")) {
                         servico = new Consulta();
                     }
-                    if (tipo.equalsIgnoreCase( "Tosa" )) {
+                    if (tipo.equalsIgnoreCase("Tosa")) {
                         servico = new Tosa();
                     }
-                    if (tipo.equalsIgnoreCase( "Vacina" )) {
+                    if (tipo.equalsIgnoreCase("Vacina")) {
                         servico = new Vacina();
                     }
-                    servico.setAnimal( animal );
-                    servico.setRealizacao( realizacao );
-                    servico.setDescricao( descricao );
-                    servico.setId( idServico );
-                    servico.setTipo( tipo );
+                    servico.setAnimal(animal);
+                    servico.setRealizacao(realizacao);
+                    servico.setDescricao(descricao);
+                    servico.setId(idServico);
+                    servico.setTipo(tipo);
                 }
             }
         } catch (SQLException e) {
-            System.err.println( "Não foi possível consultar o Servico: " + e.getMessage() );
+            System.err.println("Não foi possível consultar o Servico: " + e.getMessage());
         } finally {
-            fecharObjetos( rs, ps, conn );
+            fecharObjetos(rs, ps, conn);
         }
         return servico;
     }
@@ -139,43 +139,41 @@ public class ServicoRepository implements Repository<Servico, Long> {
     @Override
     public Servico persiste(Servico s) {
 
-        s.setId( 0L );
+        s.setId(0L);
 
-        var sql = "BEGIN " +
-                " INSERT INTO TB_SERVICO (TP_SERVICO, DS_SERVICO, DT_REALIZACAO, ANIMAL) " +
-                " values (?,?,?,?) returning ID_SERVICO into ?;  END;";
+        var sql = "INSERT INTO TB_SERVICO (TP_SERVICO, DS_SERVICO, DT_REALIZACAO, ANIMAL) " +
+                " values (?,?,?,?)";
 
         Connection conn = factory.getConnection();
-        CallableStatement cs = null;
+        PreparedStatement ps = null;
 
         try {
-            conn.setAutoCommit( false );
-            cs = conn.prepareCall( sql );
-            cs.setString( 1, s.getTipo() );
-            cs.setString( 2, s.getDescricao() );
-            cs.setDate( 3, Date.valueOf( s.getRealizacao() ) );
-            cs.setLong( 4, s.getAnimal().getId() );
-            cs.registerOutParameter( 5, Types.BIGINT );
-            cs.executeUpdate();
-            s.setId( cs.getLong( 5 ) );
-            conn.setAutoCommit( true );
+
+            conn.setAutoCommit(false);
+
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, s.getTipo());
+            ps.setString(2, s.getDescricao());
+            ps.setDate(3, Date.valueOf(s.getRealizacao()));
+            ps.setLong(4, s.getAnimal().getId());
+
+            ps.executeUpdate();
+
+            final ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                final Long id = rs.getLong(1);
+                s.setId(id);
+            }
+
+            conn.setAutoCommit(true);
+
         } catch (SQLException e) {
-            System.err.println( "Não foi possivel salvar o servico no banco de dados:  " + e.getMessage() );
+            System.err.println("Não foi possivel salvar o servico no banco de dados:  " + e.getMessage());
         } finally {
-            fecharObjetos( null, cs, conn );
+            fecharObjetos(null, ps, conn);
         }
         return s;
     }
 
-    private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
-        try {
-            if (Objects.nonNull( rs ) && !rs.isClosed()) {
-                rs.close();
-            }
-            st.close();
-            con.close();
-        } catch (SQLException e) {
-            System.err.println( "Erro ao encerrar o ResultSet, a Connection e o Statment!\n" + e.getMessage() );
-        }
-    }
 }

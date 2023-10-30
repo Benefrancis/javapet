@@ -128,40 +128,36 @@ public class AnimalRepository implements Repository<Animal, Long> {
     @Override
     public Animal persiste(Animal animal) {
 
-        var sql = "BEGIN   INSERT INTO TB_ANIMAL " +
+        var sql = "INSERT INTO TB_ANIMAL " +
                 " (ID_ANIMAL, NM_ANIMAL, DS_ANIMAL, TP_ANIMAL, DONO, RACA) " +
-                " values (0, ?, ?, ?, ?, ?) " +
-                " returning ID_ANIMAL into ?;  END;";
+                " values (0, ?, ?, ?, ?, ?)";
 
         Connection conn = factory.getConnection();
-        CallableStatement cs = null;
+        PreparedStatement ps = null;
         try {
-            cs = conn.prepareCall(sql);
-            cs.setString(1, animal.getNome());
-            cs.setString(2, animal.getDescricao());
-            cs.setString(3, animal.getTipo());
-            cs.setLong(4, animal.getDono().getId());
-            cs.setString(5, animal.getRaca());
-            cs.registerOutParameter(6, Types.BIGINT);
-            cs.executeUpdate();
-            animal.setId(cs.getLong(6));
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, animal.getNome());
+            ps.setString(2, animal.getDescricao());
+            ps.setString(3, animal.getTipo());
+            ps.setLong(4, animal.getDono().getId());
+            ps.setString(5, animal.getRaca());
+
+            ps.executeUpdate();
+
+            final ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                final Long id = rs.getLong(1);
+                animal.setId(id);
+            }
+
         } catch (SQLException e) {
             System.err.println("Não foi possivel salvar o animal no banco de dados:  " + e.getMessage());
         } finally {
-            fecharObjetos(null, cs, conn);
+            fecharObjetos(null, ps, conn);
         }
         return animal;
     }
 
-    private static void fecharObjetos(ResultSet rs, Statement st, Connection con) {
-        try {
-            if (Objects.nonNull(rs) && !rs.isClosed()) {
-                rs.close();
-            }
-            st.close();
-            con.close();
-        } catch (SQLException e) {
-            System.err.println("Erro ao encerrar o ResultSet, a Connection e o Statment!\n" + e.getMessage());
-        }
-    }
+
 }
