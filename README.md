@@ -98,14 +98,34 @@ git clone https://github.com/Benefrancis/javapet.git && cd javapet && git checko
 
 # Como executar o programa
 
-Para executar o programa, basta entrar no diretório raiz "javapet" utilizando o prompt de comando e digitar o seguinte 
-comando ([é necessário ter o Maven corretamente instalado e configurado](https://www.youtube.com/watch?v=rfhTnfbBQcY)):
+
+Para executar o programa, basta: 
+
+
+1. entrar no diretório raiz "javapet" utilizando o prompt de comando e digitar o seguinte comando ([é necessário ter o Maven corretamente instalado e configurado](https://www.youtube.com/watch?v=rfhTnfbBQcY)):
 
 ```shell
 mvn clean package exec:java
 ```
 
 <img src="documentacao/como-rodar.png" alt="Veja como rodar no prompt">
+
+2 .No diretório documentacao/database, procure e execute o script SQL a depender do seu SGBDR:
+
+[ORACLE] tabelas-oracle.sql
+[MARIADB ou MYSQL] tabelas-maria-db.sql
+
+3. No seu navegador digite:
+
+http://localhost/pf
+
+
+Você terá na tela a lista de pessoas fisicas salvas no banco de dados.
+
+
+<img src="documentacao/browser.png" alt="Veja como rodar no browser">
+
+
 
 
 A atividade é em dupla, em caso de fraude de qualquer tipo todos os envolvidos receberão nota ZERO.
