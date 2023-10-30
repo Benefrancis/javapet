@@ -4,7 +4,7 @@ import br.com.fiap.domain.entity.animal.Animal;
 
 import java.time.LocalDate;
 
-public abstract class Servico {
+public class Servico {
 
     private Long id;
 

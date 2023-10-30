@@ -2,7 +2,7 @@ package br.com.fiap.domain.entity.pessoa;
 
 import java.time.LocalDate;
 
-public abstract class Pessoa {
+public  class Pessoa {
 
     private Long id;
 
